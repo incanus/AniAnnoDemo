@@ -18,7 +18,7 @@ class AnimatedRenderer: MKPolygonRenderer {
         lineWidth = 2
         alpha = 0.25
 
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.5,
+        timer = NSTimer.scheduledTimerWithTimeInterval(5.0,
             target: self,
             selector: "fireTimer:",
             userInfo: nil,
