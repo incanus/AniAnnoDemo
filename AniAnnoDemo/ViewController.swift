@@ -9,6 +9,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
 
         map = MKMapView(frame: view.bounds)
+        map.showsBuildings = false
         map.delegate = self
         view.addSubview(map)
 
