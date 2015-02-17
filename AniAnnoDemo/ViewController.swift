@@ -50,13 +50,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         if overlay.isKindOfClass(MKPolygon) {
-            let renderer = MKPolygonRenderer(overlay: overlay)
-            renderer.fillColor = UIColor.orangeColor().colorWithAlphaComponent(0.5)
-            renderer.strokeColor = UIColor.blackColor()
-            renderer.lineDashPattern = [2, 4]
-            renderer.lineWidth = 2
-
-            return renderer
+            return AnimatedRenderer(polygon: overlay as MKPolygon)
         }
 
         return nil
