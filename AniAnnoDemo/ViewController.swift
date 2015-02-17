@@ -40,6 +40,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }
     }
 
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        if annotation.isKindOfClass(MKPointAnnotation) {
+            return PointAnnotationView(annotation: annotation, reuseIdentifier: "")
+        }
+
+        return nil
+    }
+
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         if overlay.isKindOfClass(MKPolygon) {
             let renderer = MKPolygonRenderer(overlay: overlay)
