@@ -2,23 +2,42 @@ import MapKit
 
 class AnimatedRenderer: MKPolygonRenderer {
 
-    var image: UIImage!
+    var imageA: UIImage!
+    var imageB: UIImage!
     var timer: NSTimer!
-    var size: CGFloat!
+    var flipped: Bool!
 
     override init(polygon: MKPolygon) {
         super.init(polygon: polygon)
 
-        image = UIImage(named: "mapbox.png")
-        size = image.size.width
+        imageA = {
+            UIGraphicsBeginImageContext(CGSize(width: 256, height: 256))
+            let c = UIGraphicsGetCurrentContext()
+            CGContextSetFillColorWithColor(c, UIColor.redColor().CGColor)
+            CGContextFillRect(c, CGRect(x: 0, y: 0, width: 128, height: 256))
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return image
+            }()
+        imageB = {
+            UIGraphicsBeginImageContext(CGSize(width: 256, height: 256))
+            let c = UIGraphicsGetCurrentContext()
+            CGContextSetFillColorWithColor(c, UIColor.redColor().CGColor)
+            CGContextFillRect(c, CGRect(x: 128, y: 0, width: 128, height: 256))
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return image
+            }()
 
-        fillColor = UIColor(patternImage: image)
+        fillColor = UIColor(patternImage: imageA)
         strokeColor = UIColor.blackColor()
         lineDashPattern = [2, 4]
         lineWidth = 2
         alpha = 0.25
 
-        timer = NSTimer.scheduledTimerWithTimeInterval(5.0,
+        flipped = false
+
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.25,
             target: self,
             selector: "fireTimer:",
             userInfo: nil,
@@ -26,18 +45,13 @@ class AnimatedRenderer: MKPolygonRenderer {
     }
 
     func fireTimer(timer: NSTimer) {
-        if (size > 10 * self.image.size.width) {
-            size = self.image.size.width
+        if (flipped!) {
+            fillColor = UIColor(patternImage: imageA)
+            flipped = false
+        } else {
+            fillColor = UIColor(patternImage: imageB)
+            flipped = true
         }
-        let rect = CGRect(x: 0,
-            y: 0,
-            width:  size * 1.1,
-            height: size * 1.1)
-        UIGraphicsBeginImageContext(rect.size)
-        image.drawInRect(rect)
-        fillColor = UIColor(patternImage: UIGraphicsGetImageFromCurrentImageContext())
-        UIGraphicsEndImageContext()
-        size = rect.size.width
     }
 
 }
