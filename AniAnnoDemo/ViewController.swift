@@ -20,8 +20,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
                     var shapeCoordinates: [CLLocationCoordinate2D] = []
 
-                    for feature: NSDictionary in features["features"] as Array {
-                        if let pointCoordinates = (feature["geometry"] as NSDictionary)["coordinates"] as? Array<Double> {
+                    for feature: NSDictionary in features["features"] as! Array {
+                        if let pointCoordinates = (feature["geometry"] as! NSDictionary)["coordinates"] as? Array<Double> {
                             let annotation = MKPointAnnotation()
                             annotation.coordinate = CLLocationCoordinate2D(latitude: pointCoordinates[1],
                                 longitude: pointCoordinates[0])
@@ -51,7 +51,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         if overlay.isKindOfClass(MKPolygon) {
-            return AnimatedRenderer(polygon: overlay as MKPolygon)
+            return AnimatedRenderer(polygon: overlay as! MKPolygon)
         }
 
         return nil
